@@ -8,7 +8,7 @@ function handleError(e) {
 
 const api = {
   vehicles: {
-    list(opts) {
+    list() {
       return authPromise
         .then(authData => {
           return axios.get(
@@ -24,7 +24,25 @@ const api = {
           return Promise.resolve(res.data);
         })
         .catch(handleError);
-    }// ---- list
+    }, // ---- list
+
+    get(device) {
+      return authPromise
+        .then(authData => {
+          return axios.get(
+            `https://api.autonomia.io/v1/api/devices/${device}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authData.data.access_token}`
+              }
+            }            
+          );
+        })
+        .then(res => {
+          return Promise.resolve(res.data);
+        })
+        .catch(handleError);
+    } // ---- get
 
   } // ---- vehicles
 };
