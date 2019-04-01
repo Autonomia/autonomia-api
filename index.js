@@ -42,7 +42,27 @@ const api = {
           return Promise.resolve(res.data);
         })
         .catch(handleError);
-    } // ---- get
+    }, // ---- get
+
+    videos(device, camera, start, end) {
+      return authPromise
+        .then(authData => {
+          const params = Object.assign({ camera, start, end, sign: true});
+          return axios.post(
+            `https://api.autonomia.io/v1/api/devices/${device}/video`,
+              params,
+              {
+              headers: {
+                Authorization: `Bearer ${authData.data.access_token}`
+                }
+              }             
+          );
+        })
+        .then(res => {
+          return Promise.resolve(res.data);
+        })
+        .catch(handleError);
+    }
 
   } // ---- vehicles
 };
